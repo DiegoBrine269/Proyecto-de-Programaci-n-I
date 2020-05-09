@@ -3,9 +3,6 @@
 
 int main()
 {
-    printf("Hola a todoooos.");
-    printf("Oaaa");
-    printf("Gatogo");
 
     getch();
     return 0;
