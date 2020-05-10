@@ -3,6 +3,7 @@
 #include <conio.h>
 #include <ctype.h>
 
+
 /*FUNCIONES DE PREPROCESADOR*/
 
 /*variables globales*/
@@ -16,9 +17,9 @@ int long numCuenta;
 int long numCliente2;
 double saldoDeudor;
 
-/*funciones*/
 char opcion;
 
+/*funciones*/
 /*funciones que muestran menús*/
 void menuCliente();
 void menuAdmin();
