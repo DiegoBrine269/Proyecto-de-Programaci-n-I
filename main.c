@@ -12,8 +12,8 @@ char apePat [15];
 char apeMat [15];
 char contrasena [15];
 
-int long numCuenta;
-int long numCliente2;
+int numCuenta;
+int numCliente2;
 double saldoDeudor;
 
 char opcion;
@@ -26,6 +26,7 @@ void menuAdmin();
 /*funciones de administración*/
 void registrarCliente();
 void registrarCuenta();
+bool existeCliente(int numCliente); //esta función comprueba que un cliente exista
 void verClientes();
 void verCuentas();
 
@@ -93,14 +94,6 @@ void validarOpc(int limInf, int limSup)
         scanf(" %c", &opcion);
     }
 
-
-
-    /*while(!isdigit(opcion) || (opcion<limInf || (opcion>limSup)))
-    {
-        while ((opcion = getchar()) != '\n' && opcion != EOF); //limpiamos el buffer
-        printf("Ingrese una opcion correcta (un numero del %d al %d): ", limInf, limSup);
-        scanf("%d", &opcion);
-    }*/
 }
 
 void menuAdmin()
@@ -122,7 +115,7 @@ void menuAdmin()
             break;
 
         case '2':
-            //registrarCuenta();
+            registrarCuenta();
             break;
 
         case '3':
@@ -202,6 +195,7 @@ void registrarCliente()
         numCliente1++;
     }
 
+    system("cls");
     printf("Nombre: ");
     scanf(" %s",nombre);
 
@@ -214,7 +208,6 @@ void registrarCliente()
     printf("Contrasenia: ");
     scanf(" %s",contrasena);
 
-
     fp = fopen("Clientes.txt", "a+t");
     fprintf(fp, "%d ", numCliente1);
     fprintf(fp, "%s ", nombre);
@@ -223,10 +216,97 @@ void registrarCliente()
     fprintf(fp, "%s ", contrasena);
     fputs("\n", fp);
 
+    fclose(fp);
 
+    printf("Cliente registrado exitosamente. ID: %d", numCliente1);
+    
+}
+
+void registrarCuenta()
+{
+    FILE *fp; 
+    fp = fopen("Cuentas.txt", "r+t");
+    bool primerRegistro = true;
+
+    if(fp == NULL)
+    {
+        fp = fopen("Cuentas.txt", "w+t");
+        numCuenta = 1;
+        fprintf(fp, "%d ", numCuenta);
+        fclose(fp);
+    }
+    else
+    {   
+        primerRegistro = false;
+        fclose(fp);
+        fp = fopen("Cuentas.txt", "a+t");
+
+        while(!feof(fp))
+        {
+            fscanf(fp, "%d %d %d\n", &numCuenta, &numCliente2, &saldoDeudor);
+        }
+
+        fclose(fp);
+        numCuenta++;
+    }
+
+    system("cls");
+    printf("Ingrese el ID del cliente que desea obtener una cuenta: ");
+    scanf("%d", &numCliente2);
+
+    //----------Buscando si el cliente existe
+
+    if(existeCliente(numCliente2))
+    {
+        fp = fopen("Cuentas.txt", "a+t");
+        if(!primerRegistro) fprintf(fp, "%d ", numCuenta);
+        fprintf(fp, "%d ", numCliente2);
+        fprintf(fp, "%d ", 5000);
+        fputs("\n", fp);
+
+        fclose(fp);
+        printf("La cuenta fue otorgada con exito al cliente No. %d", numCliente2);
+    }
+    else
+    {
+        printf("ERROR. No existe un cliente con ese ID.");
+    }
 
     fclose(fp);
     
+}
+
+bool existeCliente(int numCliente)
+{
+    FILE *fp; 
+    fp = fopen("Clientes.txt", "r+t");
+    bool existe = false;
+
+    if(fp == NULL)
+    {
+        fp = fopen("Clientes.txt", "w+t");
+        fprintf(fp, "%d ", 1);
+    }
+    else
+    {   
+        fclose(fp);
+        fp = fopen("Clientes.txt", "a+t");
+
+
+        while(!feof(fp))
+        {
+            fscanf(fp, "%d %s %s %s %s\n", &numCliente1, &nombre, &apePat, &apeMat, &contrasena);
+
+            if(numCliente1 == numCliente)
+            {
+                existe = true;
+            }    
+        }
+    }
+
+    fclose(fp);
+
+    return existe;
 }
 
 void registrarDeposito ()
