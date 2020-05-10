@@ -1,8 +1,8 @@
-#include <stdio.h>
+﻿#include <stdio.h>
 #include <stdlib.h>
 #include <conio.h>
 #include <ctype.h>
-
+//un commit de prueba, soy ozogo
 
 /*FUNCIONES DE PREPROCESADOR*/
 
