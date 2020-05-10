@@ -2,12 +2,11 @@
 #include <stdlib.h>
 #include <conio.h>
 #include <ctype.h>
-//un commit de prueba, soy ozogo
 
 /*FUNCIONES DE PREPROCESADOR*/
 
 /*variables globales*/
-int long numCliente1;
+int numCliente1;
 char nombre [15];
 char apePat [15];
 char apeMat [15];
@@ -119,7 +118,7 @@ void menuAdmin()
     switch(opcion)
     {
         case '1':
-            //registrarCliente();
+            registrarCliente();
             break;
 
         case '2':
@@ -177,6 +176,63 @@ void menuCliente()
             printf("Error");
             break;
     }
+}
+
+void registrarCliente()
+{
+    FILE *fp; 
+    fp = fopen("Clientes.txt", "r+t");
+
+    if(fp == NULL)
+    {
+        fp = fopen("Clientes.txt", "w+t");
+        fprintf(fp, "%d ", 1);
+    }
+    else
+    {   
+        fclose(fp);
+        fp = fopen("Clientes.txt", "a+t");
+
+        while(!feof(fp))
+        {
+            fscanf(fp, "%d %s %s %s %s\n", &numCliente1, &nombre, &apePat, &apeMat, &contrasena);
+        }
+
+        fclose(fp);
+        numCliente1++;
+    }
+
+    printf("Nombre: ");
+    scanf(" %s",nombre);
+
+    printf("Apellido paterno: ");
+    scanf(" %s",apePat);
+
+    printf("Apellido materno: ");
+    scanf(" %s",apeMat);
+
+    printf("Contrasenia: ");
+    scanf(" %s",contrasena);
+
+
+    fp = fopen("Clientes.txt", "a+t");
+    fprintf(fp, "%d ", numCliente1);
+    fprintf(fp, "%s ", nombre);
+    fprintf(fp, "%s ", apePat);
+    fprintf(fp, "%s ", apeMat);
+    fprintf(fp, "%s ", contrasena);
+    fputs("\n", fp);
+
+
+
+    fclose(fp);
+    
+}
+
+void registrarDeposito ()
+{
+    FILE *fp;
+    //fp = fopen
 }
 
 void salir(){
