@@ -315,6 +315,7 @@ void registrarDeposito ()
     //fp = fopen
 }
 
+//Prueba
 void salir(){
     exit(-1);
 }
