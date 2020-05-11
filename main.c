@@ -315,7 +315,15 @@ void registrarDeposito ()
     //fp = fopen
 }
 
+<<<<<<< HEAD
 //Prueba
+=======
+void verCuentas()
+{
+  FILE *fp = fopen();
+}
+
+>>>>>>> 884607bc787619c318f4e8c9fad2819b8eee820d
 void salir(){
     exit(-1);
 }
