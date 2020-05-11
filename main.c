@@ -52,6 +52,8 @@ int main()
     printf("\n2. Cliente");
     printf("\n3. Salir");
 
+//COMENTARIO DE PRUEBA
+
     validarOpc(1, 3);
 
     switch(opcion)
@@ -121,7 +123,7 @@ void menuAdmin()
         case '3':
             //verClientes();
             break;
-        
+
         case '4':
             //verCuentas();
             break;
@@ -160,7 +162,7 @@ void menuCliente()
         case '3':
             //verSaldoCuentas();
             break;
-        
+
         case '4':
             salir();
             break;
@@ -173,7 +175,7 @@ void menuCliente()
 
 void registrarCliente()
 {
-    FILE *fp; 
+    FILE *fp;
     fp = fopen("Clientes.txt", "r+t");
 
     if(fp == NULL)
@@ -182,7 +184,7 @@ void registrarCliente()
         fprintf(fp, "%d ", 1);
     }
     else
-    {   
+    {
         fclose(fp);
         fp = fopen("Clientes.txt", "a+t");
 
@@ -219,12 +221,12 @@ void registrarCliente()
     fclose(fp);
 
     printf("Cliente registrado exitosamente. ID: %d", numCliente1);
-    
+
 }
 
 void registrarCuenta()
 {
-    FILE *fp; 
+    FILE *fp;
     fp = fopen("Cuentas.txt", "r+t");
     bool primerRegistro = true;
 
@@ -236,7 +238,7 @@ void registrarCuenta()
         fclose(fp);
     }
     else
-    {   
+    {
         primerRegistro = false;
         fclose(fp);
         fp = fopen("Cuentas.txt", "a+t");
@@ -273,12 +275,12 @@ void registrarCuenta()
     }
 
     fclose(fp);
-    
+
 }
 
 bool existeCliente(int numCliente)
 {
-    FILE *fp; 
+    FILE *fp;
     fp = fopen("Clientes.txt", "r+t");
     bool existe = false;
 
@@ -288,7 +290,7 @@ bool existeCliente(int numCliente)
         fprintf(fp, "%d ", 1);
     }
     else
-    {   
+    {
         fclose(fp);
         fp = fopen("Clientes.txt", "a+t");
 
@@ -300,7 +302,7 @@ bool existeCliente(int numCliente)
             if(numCliente1 == numCliente)
             {
                 existe = true;
-            }    
+            }
         }
     }
 
