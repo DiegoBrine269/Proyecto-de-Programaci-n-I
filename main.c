@@ -53,6 +53,7 @@ int main()
     printf("\n3. Salir");
 
 //COMENTARIO DE PRUEBA
+//UwU
 
     validarOpc(1, 3);
 
