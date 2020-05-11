@@ -52,9 +52,6 @@ int main()
     printf("\n2. Cliente");
     printf("\n3. Salir");
 
-//COMENTARIO DE PRUEBA
-//UwU
-
     validarOpc(1, 3);
 
     switch(opcion)
