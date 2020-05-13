@@ -7,6 +7,16 @@
 
 /*variables globales*/
 
+struct Domicilio
+{
+    char calle [15];
+    int numeroInt;
+    int numeroExt;
+    char colonia [15];
+    char alcaldia [15];
+    char ciudad [15];
+};
+
 struct Cliente
 {
     int numCliente1;
@@ -14,7 +24,7 @@ struct Cliente
     char apePat [15];
     char apeMat [15];
     int edad;
-    char domicilio [40];
+    struct Domicilio domicilioCliente;
     char contrasena [15];
 };
 
