@@ -6,19 +6,28 @@
 /*FUNCIONES DE PREPROCESADOR*/
 
 /*variables globales*/
-int long numCliente1;
-char nombre [15];
-char apePat [15];
-char apeMat [15];
-char contrasena [15];
 
-int long numCuenta;
-int long numCliente2;
-double saldoDeudor;
+struct cliente
+{
+    int numCliente;
+    char nombre [15];
+    char apePat [15];
+    char apeMat [15];
+    int edad;
+    char domicilio [40];
+    char contrasena [15];
+};
 
-/*funciones*/
+struct cuenta
+{
+    int numCuenta;
+    int numCliente2;
+    double saldoDeudor;
+};
+
 char opcion;
 
+/*funciones*/
 /*funciones que muestran menús*/
 void menuCliente();
 void menuAdmin();
