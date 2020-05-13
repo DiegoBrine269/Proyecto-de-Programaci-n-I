@@ -143,7 +143,7 @@ void menuAdmin()
             break;
 
         case '5':
-            salir();
+            main();
             break;
 
         default:
@@ -178,7 +178,7 @@ void menuCliente()
             break;
         
         case '4':
-            salir();
+            main();
             break;
 
         default:
