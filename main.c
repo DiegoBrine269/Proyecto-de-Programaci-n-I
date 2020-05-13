@@ -7,9 +7,9 @@
 
 /*variables globales*/
 
-struct cliente
+struct Cliente
 {
-    int numCliente;
+    int numCliente1;
     char nombre [15];
     char apePat [15];
     char apeMat [15];
@@ -18,7 +18,7 @@ struct cliente
     char contrasena [15];
 };
 
-struct cuenta
+struct Cuenta
 {
     int numCuenta;
     int numCliente2;
