@@ -6,15 +6,33 @@
 /*FUNCIONES DE PREPROCESADOR*/
 
 /*variables globales*/
-int numCliente1;
-char nombre [15];
-char apePat [15];
-char apeMat [15];
-char contrasena [15];
+struct Domicilio
+{
+    char calle [15];
+    int numeroInt;
+    int numeroExt;
+    char colonia [15];
+    char alcaldia [15];
+    char ciudad [15];
+};
 
-int numCuenta;
-int numCliente2;
-double saldoDeudor;
+struct Cliente
+{
+    int numCliente1;
+    char nombre [15];
+    char apePat [15];
+    char apeMat [15];
+    int edad;
+    struct Domicilio domicilioCliente;
+    char contrasena [15];
+};
+
+struct Cuenta
+{
+    int numCuenta;
+    int numCliente2;
+    double saldoDeudor;
+};
 
 char opcion;
 
