@@ -201,43 +201,6 @@ void registrarCliente()
     fp = fopen("Clientes.txt", "r+t");
     fp2 = fopen("Domicilio.txt", "r+t");
 
-    printf("DATOS PERSONALES: \n");
-
-    printf("Nombre: ");
-    scanf(" %[^\n]", miCliente.nombre);
-
-    printf("Apellido paterno: ");
-    scanf(" %[^\n]", miCliente.apePat);
-
-    printf("Apellido materno: ");
-    scanf(" %[^\n]", miCliente.apeMat);
-
-    printf("Edad: ");
-    scanf(" %[^\n]", &miCliente.edad);
-
-    printf("\nDOMICILIO: \n");
-
-    printf("Calle: ");
-    scanf(" %[^\n]", miCliente.domicilioCliente.calle);
-
-    printf("Numero Interior: ");
-    scanf(" %d", &miCliente.domicilioCliente.numeroInt);
-
-    printf("Numero Exterior: ");
-    scanf(" %d", &miCliente.domicilioCliente.numeroExt);
-
-    printf("Colonia: ");
-    scanf(" %[^\n]", miCliente.domicilioCliente.colonia);
-
-    printf("Alcaldia: ");
-    scanf(" %[^\n]", miCliente.domicilioCliente.alcaldia);
-
-    printf("Ciudad: ");
-    scanf(" %[^\n]", miCliente.domicilioCliente.ciudad);
-
-    printf("Contrasenia: ");
-    scanf(" %s", miCliente.contrasena);
-
     /*----------------------Se lee el archivo de Clientes---------------------*/
     if(fp == NULL)
     {
@@ -274,6 +237,43 @@ void registrarCliente()
 
         fclose(fp2);
     }
+
+        printf("DATOS PERSONALES: \n");
+
+    printf("Nombre: ");
+    scanf(" %[^\n]", miCliente.nombre);
+
+    printf("Apellido paterno: ");
+    scanf(" %[^\n]", miCliente.apePat);
+
+    printf("Apellido materno: ");
+    scanf(" %[^\n]", miCliente.apeMat);
+
+    printf("Edad: ");
+    scanf(" %[^\n]", &miCliente.edad);
+
+    printf("\nDOMICILIO: \n");
+
+    printf("Calle: ");
+    scanf(" %[^\n]", miCliente.domicilioCliente.calle);
+
+    printf("Numero Interior: ");
+    scanf(" %d", &miCliente.domicilioCliente.numeroInt);
+
+    printf("Numero Exterior: ");
+    scanf(" %d", &miCliente.domicilioCliente.numeroExt);
+
+    printf("Colonia: ");
+    scanf(" %[^\n]", miCliente.domicilioCliente.colonia);
+
+    printf("Alcaldia: ");
+    scanf(" %[^\n]", miCliente.domicilioCliente.alcaldia);
+
+    printf("Ciudad: ");
+    scanf(" %[^\n]", miCliente.domicilioCliente.ciudad);
+
+    printf("Contrasenia: ");
+    scanf(" %s", miCliente.contrasena);
 
 
     fp = fopen("Clientes.txt", "a+t");
