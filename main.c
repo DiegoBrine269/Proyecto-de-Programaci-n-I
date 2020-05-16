@@ -26,14 +26,14 @@ struct Cliente
     int edad;
     struct Domicilio domicilioCliente;
     char contrasena [15];
-};
+} miCliente;
 
 struct Cuenta
 {
     int numCuenta;
     int numCliente2;
     double saldoDeudor;
-};
+} miCuenta;
 
 char opcion;
 
@@ -140,7 +140,7 @@ void menuAdmin()
         case '3':
             //verClientes();
             break;
-        
+
         case '4':
             //verCuentas();
             break;
@@ -179,7 +179,7 @@ void menuCliente()
         case '3':
             //verSaldoCuentas();
             break;
-        
+
         case '4':
             main();
             break;
@@ -194,8 +194,7 @@ void registrarCliente()
 {
     system("cls");
 
-    struct Cliente miCliente;
-    FILE *fp; 
+    FILE *fp;
     FILE *fp2;
 
     fp = fopen("Clientes.txt", "r+t");
@@ -208,7 +207,7 @@ void registrarCliente()
         fprintf(fp, "%d ", 1);
     }
     else
-    {   
+    {
         fclose(fp);
         fp = fopen("Clientes.txt", "a+t");
 
@@ -221,17 +220,17 @@ void registrarCliente()
 
         fclose(fp);
         miCliente.numCliente1++;
-        
+
     }
 
     /*----------------------Se lee el archivo de Domicilio---------------------*/
     if(fp2 == NULL)
     {
         fp2 = fopen("Domicilio.txt", "w+t");
-            
+
     }
     else
-    {   
+    {
         fclose(fp2);
         fp2 = fopen("Domicilio.txt", "a+t");
 
@@ -297,14 +296,13 @@ void registrarCliente()
     fclose(fp2);
 
     printf("Cliente registrado exitosamente. ID: %d", miCliente.numCliente1);
-    
+
 }
 
 void registrarCuenta()
 {
-    struct Cuenta miCuenta;
 
-    FILE *fp; 
+    FILE *fp;
     fp = fopen("Cuentas.txt", "r+t");
     bool primerRegistro = true;
 
@@ -316,7 +314,7 @@ void registrarCuenta()
         fclose(fp);
     }
     else
-    {   
+    {
         primerRegistro = false;
         fclose(fp);
         fp = fopen("Cuentas.txt", "a+t");
@@ -339,9 +337,9 @@ void registrarCuenta()
     if(existeCliente(miCuenta.numCliente2))
     {
         fp = fopen("Cuentas.txt", "a+t");
-        if(primerRegistro) 
+        if(primerRegistro)
             fprintf(fp, "%d ", 1);
-        else 
+        else
             fprintf(fp, "%d ", miCuenta.numCuenta);
         fprintf(fp, "%d ", miCuenta.numCliente2);
         fprintf(fp, "%d ", 5000);
@@ -356,13 +354,12 @@ void registrarCuenta()
     }
 
     fclose(fp);
-    
+
 }
 
 bool existeCliente(int numCliente)
 {
-    struct Cliente miCliente;
-    FILE *fp; 
+    FILE *fp;
     fp = fopen("Clientes.txt", "r+t");
     bool existe = false;
 
@@ -372,7 +369,7 @@ bool existeCliente(int numCliente)
         fprintf(fp, "%d ", 1);
     }
     else
-    {   
+    {
         fclose(fp);
         fp = fopen("Clientes.txt", "a+t");
 
@@ -384,7 +381,7 @@ bool existeCliente(int numCliente)
             if(miCliente.numCliente1 == numCliente)
             {
                 existe = true;
-            }    
+            }
         }
     }
 
