@@ -394,9 +394,9 @@ void registrarDeposito ()
     FILE *fp;
     //fp = fopen
 }
+
 void verCuentas()
 {
-
   system("cls");
 
   FILE *fp = fopen( "Cuentas.txt" , "r+t" );
@@ -405,9 +405,7 @@ void verCuentas()
     char registro;
     printf("No se ha registrado una cuenta todavía. ¿Deseas registrar una? (s/n)\n");
     scanf("%c", &registro);
-    if (registro == 's') {
-      registrarCuenta();
-    }
+    if (registro == 's') registrarCuenta();
     else menuAdmin();
   }
 
