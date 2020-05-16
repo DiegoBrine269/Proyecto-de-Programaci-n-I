@@ -25,14 +25,14 @@ struct Cliente
     int edad;
     struct Domicilio domicilioCliente;
     char contrasena [15];
-};
+} miCliente;
 
 struct Cuenta
 {
     int numCuenta;
     int numCliente2;
     double saldoDeudor;
-};
+} miCuenta;
 
 char opcion;
 
@@ -141,7 +141,7 @@ void menuAdmin()
             break;
 
         case '4':
-            //verCuentas();
+            verCuentas();
             break;
 
         case '5':
@@ -191,140 +191,202 @@ void menuCliente()
 
 void registrarCliente()
 {
-    FILE *fp;
-    fp = fopen("Clientes.txt", "r+t");
+  system("cls");
 
-    if(fp == NULL)
-    {
-        fp = fopen("Clientes.txt", "w+t");
-        fprintf(fp, "%d ", 1);
-    }
-    else
-    {
-        fclose(fp);
-        fp = fopen("Clientes.txt", "a+t");
+  struct Cliente miCliente;
+  FILE *fp;
+  FILE *fp2;
 
-        while(!feof(fp))
-        {
-            fscanf(fp, "%d %s %s %s %s\n", &numCliente1, &nombre, &apePat, &apeMat, &contrasena);
-        }
+  fp = fopen("Clientes.txt", "r+t");
+  fp2 = fopen("Domicilio.txt", "r+t");
 
-        fclose(fp);
-        numCliente1++;
-    }
+  /*----------------------Se lee el archivo de Clientes---------------------*/
+  if(fp == NULL)
+  {
+      fp = fopen("Clientes.txt", "w+t");
+      fprintf(fp, "%d ", 1);
+  }
+  else
+  {
+      fclose(fp);
+      fp = fopen("Clientes.txt", "a+t");
 
-    system("cls");
-    printf("Nombre: ");
-    scanf(" %s",nombre);
+      while(!feof(fp))
+      {
+          fscanf(fp, "%d %s %s %s %s\n", &miCliente.numCliente1, &miCliente.nombre, &miCliente.apePat, &miCliente.apeMat, &miCliente.contrasena);
 
-    printf("Apellido paterno: ");
-    scanf(" %s",apePat);
+      }
 
-    printf("Apellido materno: ");
-    scanf(" %s",apeMat);
+      fclose(fp);
+      miCliente.numCliente1++;
 
-    printf("Contrasenia: ");
-    scanf(" %s",contrasena);
+  }
 
-    fp = fopen("Clientes.txt", "a+t");
-    fprintf(fp, "%d ", numCliente1);
-    fprintf(fp, "%s ", nombre);
-    fprintf(fp, "%s ", apePat);
-    fprintf(fp, "%s ", apeMat);
-    fprintf(fp, "%s ", contrasena);
-    fputs("\n", fp);
+  /*----------------------Se lee el archivo de Domicilio---------------------*/
+  if(fp2 == NULL)
+  {
+      fp2 = fopen("Domicilio.txt", "w+t");
 
-    fclose(fp);
+  }
+  else
+  {
+      fclose(fp2);
+      fp2 = fopen("Domicilio.txt", "a+t");
 
-    printf("Cliente registrado exitosamente. ID: %d", numCliente1);
+      fclose(fp2);
+  }
+
+      printf("DATOS PERSONALES: \n");
+
+  printf("Nombre: ");
+  scanf(" %[^\n]", miCliente.nombre);
+
+  printf("Apellido paterno: ");
+  scanf(" %[^\n]", miCliente.apePat);
+
+  printf("Apellido materno: ");
+  scanf(" %[^\n]", miCliente.apeMat);
+
+  printf("Edad: ");
+  scanf(" %[^\n]", &miCliente.edad);
+
+  printf("\nDOMICILIO: \n");
+
+  printf("Calle: ");
+  scanf(" %[^\n]", miCliente.domicilioCliente.calle);
+
+  printf("Numero Interior: ");
+  scanf(" %d", &miCliente.domicilioCliente.numeroInt);
+
+  printf("Numero Exterior: ");
+  scanf(" %d", &miCliente.domicilioCliente.numeroExt);
+
+  printf("Colonia: ");
+  scanf(" %[^\n]", miCliente.domicilioCliente.colonia);
+
+  printf("Alcaldia: ");
+  scanf(" %[^\n]", miCliente.domicilioCliente.alcaldia);
+
+  printf("Ciudad: ");
+  scanf(" %[^\n]", miCliente.domicilioCliente.ciudad);
+
+  printf("Contrasenia: ");
+  scanf(" %s", miCliente.contrasena);
+
+
+  fp = fopen("Clientes.txt", "a+t");
+  fp2 = fopen("Domicilio.txt", "a+t");
+  fprintf(fp, "%d ", miCliente.numCliente1);
+  fprintf(fp, "%s ", miCliente.nombre);
+  fprintf(fp, "%s ", miCliente.apePat);
+  fprintf(fp, "%s ", miCliente.apeMat);
+  fprintf(fp2, "%d ", miCliente.numCliente1);
+  fprintf(fp2, "[%s] ", miCliente.domicilioCliente.calle);
+  fprintf(fp2, "%d ", miCliente.domicilioCliente.numeroInt);
+  fprintf(fp2, "%d ", miCliente.domicilioCliente.numeroExt);
+  fprintf(fp2, "[%s] ", miCliente.domicilioCliente.colonia);
+  fprintf(fp2, "[%s] ", miCliente.domicilioCliente.alcaldia);
+  fprintf(fp2, "[%s] ", miCliente.domicilioCliente.ciudad);
+  fprintf(fp, "%s ", miCliente.contrasena);
+  fputs("\n", fp);
+  fputs("\n", fp2);
+
+  fclose(fp);
+  fclose(fp2);
+
+  printf("Cliente registrado exitosamente. ID: %d", miCliente.numCliente1);
 
 }
 
 void registrarCuenta()
 {
-    FILE *fp;
-    fp = fopen("Cuentas.txt", "r+t");
-    bool primerRegistro = true;
 
-    if(fp == NULL)
-    {
-        fp = fopen("Cuentas.txt", "w+t");
-        numCuenta = 1;
-        fprintf(fp, "%d ", numCuenta);
-        fclose(fp);
-    }
-    else
-    {
-        primerRegistro = false;
-        fclose(fp);
-        fp = fopen("Cuentas.txt", "a+t");
+  FILE *fp;
+  fp = fopen("Cuentas.txt", "r+t");
+  bool primerRegistro = true;
 
-        while(!feof(fp))
-        {
-            fscanf(fp, "%d %d %d\n", &numCuenta, &numCliente2, &saldoDeudor);
-        }
+  if(fp == NULL)
+  {
+      fp = fopen("Cuentas.txt", "w+t");
+      //miCuenta.numCuenta = 1;
+      //fprintf(fp, "%d ", miCuenta.numCuenta);
+      fclose(fp);
+  }
+  else
+  {
+      primerRegistro = false;
+      fclose(fp);
+      fp = fopen("Cuentas.txt", "a+t");
 
-        fclose(fp);
-        numCuenta++;
-    }
+      while(!feof(fp))
+      {
+          fscanf(fp, "%d %d %d\n", &miCuenta.numCuenta, &miCuenta.numCliente2, &miCuenta.saldoDeudor);
+      }
 
-    system("cls");
-    printf("Ingrese el ID del cliente que desea obtener una cuenta: ");
-    scanf("%d", &numCliente2);
+      fclose(fp);
+      miCuenta.numCuenta++;
+  }
 
-    //----------Buscando si el cliente existe
+  system("cls");
+  printf("Ingrese el ID del cliente que desea obtener una cuenta: ");
+  scanf("%d", &miCuenta.numCliente2);
 
-    if(existeCliente(numCliente2))
-    {
-        fp = fopen("Cuentas.txt", "a+t");
-        if(!primerRegistro) fprintf(fp, "%d ", numCuenta);
-        fprintf(fp, "%d ", numCliente2);
-        fprintf(fp, "%d ", 5000);
-        fputs("\n", fp);
+  //----------Buscando si el cliente existe
 
-        fclose(fp);
-        printf("La cuenta fue otorgada con exito al cliente No. %d", numCliente2);
-    }
-    else
-    {
-        printf("ERROR. No existe un cliente con ese ID.");
-    }
+  if(existeCliente(miCuenta.numCliente2))
+  {
+      fp = fopen("Cuentas.txt", "a+t");
+      if(primerRegistro)
+          fprintf(fp, "%d ", 1);
+      else
+          fprintf(fp, "%d ", miCuenta.numCuenta);
+      fprintf(fp, "%d ", miCuenta.numCliente2);
+      fprintf(fp, "%d ", 5000);
+      fputs("\n", fp);
 
-    fclose(fp);
+      fclose(fp);
+      printf("La cuenta fue otorgada con exito al cliente No. %d", miCuenta.numCliente2);
+  }
+  else
+  {
+      printf("ERROR. No existe un cliente con ese ID.");
+  }
+
+  fclose(fp);
 
 }
 
 bool existeCliente(int numCliente)
 {
-    FILE *fp;
-    fp = fopen("Clientes.txt", "r+t");
-    bool existe = false;
+  FILE *fp;
+  fp = fopen("Clientes.txt", "r+t");
+  bool existe = false;
 
-    if(fp == NULL)
-    {
-        fp = fopen("Clientes.txt", "w+t");
-        fprintf(fp, "%d ", 1);
-    }
-    else
-    {
-        fclose(fp);
-        fp = fopen("Clientes.txt", "a+t");
+  if(fp == NULL)
+  {
+      fp = fopen("Clientes.txt", "w+t");
+      fprintf(fp, "%d ", 1);
+  }
+  else
+  {
+      fclose(fp);
+      fp = fopen("Clientes.txt", "a+t");
 
 
-        while(!feof(fp))
-        {
-            fscanf(fp, "%d %s %s %s %s\n", &numCliente1, &nombre, &apePat, &apeMat, &contrasena);
+      while(!feof(fp))
+      {
+          fscanf(fp, "%d %s %s %s %s\n", &miCliente.numCliente1, miCliente.nombre, miCliente.apePat, miCliente.apeMat, miCliente.contrasena);
 
-            if(numCliente1 == numCliente)
-            {
-                existe = true;
-            }
-        }
-    }
+          if(miCliente.numCliente1 == numCliente)
+          {
+              existe = true;
+          }
+      }
+  }
 
-    fclose(fp);
+  fclose(fp);
 
-    return existe;
+  return existe;
 }
 
 void registrarDeposito ()
@@ -332,13 +394,34 @@ void registrarDeposito ()
     FILE *fp;
     //fp = fopen
 }
-
-
-//Prueba
-
 void verCuentas()
 {
-//  FILE *fp = fopen();
+
+  system("cls");
+
+  FILE *fp = fopen( "Cuentas.txt" , "r+t" );
+  int variasCuentas;
+  if (fp == NULL) {
+    char registro;
+    printf("No se ha registrado una cuenta todavía. ¿Deseas registrar una? (s/n)\n");
+    scanf("%c", &registro);
+    if (registro == 's') {
+      registrarCuenta();
+    }
+    else menuAdmin();
+  }
+
+  else {
+    while (!feof(fp)) {
+      fscanf( fp, "%d %d %d\n", &miCuenta.numCuenta, &miCuenta.numCliente2, &miCuenta.saldoDeudor);
+      //variasCuentas(miCuenta.numCliente2);
+      if (variasCuentas == miCuenta.numCliente2) {
+        printf("Cliente 1:");
+      }
+    }
+  }
+
+  fclose(fp);
 }
 
 void salir(){
