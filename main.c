@@ -400,7 +400,6 @@ void verCuentas()
   system("cls");
 
   FILE *fp = fopen( "Cuentas.txt" , "r+t" );
-  int variasCuentas;
   if (fp == NULL) {
     char registro;
     printf("No se ha registrado una cuenta todavía. ¿Deseas registrar una? (s/n)\n");
@@ -412,13 +411,13 @@ void verCuentas()
   else {
     while (!feof(fp)) {
       fscanf( fp, "%d %d %d\n", &miCuenta.numCuenta, &miCuenta.numCliente2, &miCuenta.saldoDeudor);
-      //variasCuentas(miCuenta.numCliente2);
-      if (variasCuentas == miCuenta.numCliente2) {
-        printf("Cliente 1:");
-      }
+      printf("Cliente %d:\n", miCuenta.numCliente2);
+      printf("\n\tNo. Cuenta: %d\tDeuda: %d\n\n", miCuenta.numCuenta, miCuenta.saldoDeudor);
     }
+    printf("1. Regresar");
+    validarOpc(1,1);
+    menuAdmin();
   }
-
   fclose(fp);
 }
 
