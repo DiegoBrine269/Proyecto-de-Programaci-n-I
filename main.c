@@ -408,17 +408,16 @@ void verCuentas()
     else menuAdmin();
   }
 
-  else {
-    while (!feof(fp)) {
-      fscanf( fp, "%d %d %d\n", &miCuenta.numCuenta, &miCuenta.numCliente2, &miCuenta.saldoDeudor);
-      printf("Cliente %d:\n", miCuenta.numCliente2);
-      printf("\n\tNo. Cuenta: %d\tDeuda: %d\n\n", miCuenta.numCuenta, miCuenta.saldoDeudor);
-    }
-    printf("1. Regresar");
-    validarOpc(1,1);
-    menuAdmin();
+  while (!feof(fp)) {
+    fscanf( fp, "%d %d %d\n", &miCuenta.numCuenta, &miCuenta.numCliente2, &miCuenta.saldoDeudor);
+    printf("Cliente %d:\n", miCuenta.numCliente2);
+    printf("\n\tNo. Cuenta: %d\tDeuda: %d\n\n", miCuenta.numCuenta, miCuenta.saldoDeudor);
   }
+  
+  printf("1. Regresar");
+  validarOpc(1,1);
   fclose(fp);
+  menuAdmin();
 }
 
 void salir(){
