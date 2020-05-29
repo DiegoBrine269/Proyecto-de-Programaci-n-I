@@ -400,7 +400,7 @@ void verCuentas()
   system("cls");
 
   FILE *fp = fopen( "Cuentas.txt" , "r+t" );
-  if (fp == NULL) {
+  if (fp == NULL) { //Si no hay un archivo es porque aún no se han registrado Cuentas
     char registro;
     printf("No se ha registrado una cuenta todavía. ¿Deseas registrar una? (s/n)\n");
     scanf("%c", &registro);
@@ -410,8 +410,7 @@ void verCuentas()
 
   while (!feof(fp)) {
     fscanf( fp, "%d %d %d\n", &miCuenta.numCuenta, &miCuenta.numCliente2, &miCuenta.saldoDeudor);
-    printf("Cliente %d:\n", miCuenta.numCliente2);
-    printf("\n\tNo. Cuenta: %d\tDeuda: %d\n\n", miCuenta.numCuenta, miCuenta.saldoDeudor);
+    printf("Cliente %d:\n\n\tNo. Cuenta: %d\tDeuda: %d\n\n", miCuenta.numCliente2, miCuenta.numCuenta, miCuenta.saldoDeudor);
   }
 
   printf("1. Regresar");
