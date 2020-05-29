@@ -52,7 +52,7 @@ void verCuentas();
 /*funciones de cliente*/
 void registrarDeposito();
 void registrarPrestamo();
-void verSaldoCuentas();
+void verSaldoCuentas(int cliente);
 
 /*función que valida que el usuario ingrese una opción adecuada*/
 void validarOpc(int limInf, int limSup);
@@ -122,7 +122,7 @@ void menuAdmin()
     printf("\n2. Registrar una cuenta (Crédito)");
     printf("\n3. Ver clientes");
     printf("\n4. Ver cuentas");
-    printf("\n5. Salir");
+    printf("\n5. Regresar");
 
     validarOpc(1, 5);
 
@@ -145,7 +145,7 @@ void menuAdmin()
             break;
 
         case '5':
-            salir();
+            main();
             break;
 
         default:
@@ -161,7 +161,7 @@ void menuCliente()
     printf("\n1. Registrar un deposito");
     printf("\n2. Registrar un prestamo");
     printf("\n3. Ver saldo de cuentas");
-    printf("\n4. Salir");
+    printf("\n4. Regresar");
 
     validarOpc(1, 4);
 
@@ -176,11 +176,11 @@ void menuCliente()
             break;
 
         case '3':
-            //verSaldoCuentas();
+            verSaldoCuentas(1);
             break;
 
         case '4':
-            salir();
+            main();
             break;
 
         default:
@@ -400,7 +400,8 @@ void verCuentas()
   system("cls");
 
   FILE *fp = fopen( "Cuentas.txt" , "r+t" );
-  if (fp == NULL) { //Si no hay un archivo es porque aún no se han registrado Cuentas
+  if (fp == NULL) {         //Si no hay un archivo es porque aún no se han registrado Cuentas
+    fclose(fp);
     char registro;
     printf("No se ha registrado una cuenta todavía. ¿Deseas registrar una? (s/n)\n");
     scanf("%c", &registro);
@@ -408,7 +409,7 @@ void verCuentas()
     else menuAdmin();
   }
 
-  while (!feof(fp)) {
+  while (!feof(fp)) {         //cada dato que esté en el archivo se muestra con el ciclo
     fscanf( fp, "%d %d %d\n", &miCuenta.numCuenta, &miCuenta.numCliente2, &miCuenta.saldoDeudor);
     printf("Cliente %d:\n\n\tNo. Cuenta: %d\tDeuda: %d\n\n", miCuenta.numCliente2, miCuenta.numCuenta, miCuenta.saldoDeudor);
   }
@@ -417,6 +418,33 @@ void verCuentas()
   validarOpc(1,1);
   fclose(fp);
   menuAdmin();
+}
+
+void verSaldoCuentas(int cliente) {
+  system("cls");
+
+  FILE *fp = fopen( "Cuentas.txt" , "r+t" );
+  if (fp == NULL) {         //Si no hay un archivo es porque aún no tiene una cuenta
+    fclose(fp);
+    char registro;
+    printf("No tienes una cuenta todavía. ¿Deseas registrar una con un asesor? (s/n)\n");
+    scanf("%c", &registro);
+    if (registro == 's') registrarCuenta();
+    else menuCliente();
+  }
+
+  printf("Usted tiene los siguentes numeros de cuenta:\n\n");
+  while (!feof(fp)) {
+    fscanf( fp, "%d %d %d\n", &miCuenta.numCuenta, &miCuenta.numCliente2, &miCuenta.saldoDeudor);
+    if (cliente == miCuenta.numCliente2) {        //
+      printf("No. Cuenta: %d\tDeuda: %d\n\n", miCuenta.numCuenta, miCuenta.saldoDeudor);
+    }
+  }
+
+  printf("1. Regresar");
+  validarOpc(1,1);
+  fclose(fp);
+  menuCliente();
 }
 
 void salir(){
