@@ -413,7 +413,7 @@ void verCuentas()
     printf("Cliente %d:\n", miCuenta.numCliente2);
     printf("\n\tNo. Cuenta: %d\tDeuda: %d\n\n", miCuenta.numCuenta, miCuenta.saldoDeudor);
   }
-  
+
   printf("1. Regresar");
   validarOpc(1,1);
   fclose(fp);
