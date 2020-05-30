@@ -137,7 +137,7 @@ void menuAdmin()
             break;
 
         case '3':
-            //verClientes();
+            verClientes();
             break;
 
         case '4':
@@ -393,6 +393,29 @@ void registrarDeposito ()
 {
     FILE *fp;
     //fp = fopen
+}
+
+void verClientes(){
+    system("cls");
+    FILE *fp=fopen("Clientes.txt","r+t");
+    char a;
+    if (fp==NULL)
+    {
+        printf("No hay clientes registrados");
+        fclose(fp);
+        menuAdmin();
+    }
+    printf("ID:\tNombre:\t\t\t\tContrasenia:\n");
+    
+    while (!feof(fp))
+    {
+        fscanf( fp, "%d %s %s %s %s\n", &miCliente.numCliente1, miCliente.nombre, miCliente.apePat, miCliente.apeMat, miCliente.contrasena);
+        printf("\n%d\t%s %s %s\t\t%s\n",miCliente.numCliente1,miCliente.nombre,miCliente.apePat,miCliente.apeMat,miCliente.contrasena);
+    }
+    printf("\n1. Regresar");
+    validarOpc(1,1);
+    fclose(fp);
+    menuAdmin();
 }
 
 void verCuentas()
