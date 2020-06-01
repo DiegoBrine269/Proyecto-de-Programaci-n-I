@@ -352,7 +352,6 @@ void registrarCliente()
 
 void registrarCuenta()
 {
-
   FILE *fp;
   fp = fopen("Cuentas.txt", "r+t");
   bool primerRegistro = true;
