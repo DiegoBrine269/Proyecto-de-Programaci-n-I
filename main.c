@@ -205,6 +205,7 @@ void registrarCliente()
     {
         fp = fopen("Clientes.txt", "w+t");
         fprintf(fp, "%d ", 1);
+        miCliente.numCliente1 = 1;
     }
     else
     {
@@ -215,7 +216,6 @@ void registrarCliente()
         while(!feof(fp))
         {
             fscanf(fp, "%d %s %s %s %s\n", &miCliente.numCliente1, &miCliente.nombre, &miCliente.apePat, &miCliente.apeMat, &miCliente.contrasena);
-
         }
 
         fclose(fp);
@@ -237,7 +237,7 @@ void registrarCliente()
         fclose(fp2);
     }
 
-        printf("DATOS PERSONALES: \n");
+    printf("DATOS PERSONALES: \n");
 
     printf("Nombre: ");
     scanf(" %[^\n]", miCliente.nombre);

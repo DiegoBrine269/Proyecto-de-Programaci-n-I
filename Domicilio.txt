@@ -1,3 +1,0 @@
-1 [Buenavista] 28 3 [Colonia del MarIztapalapa] [Iztapalapa] [Ciudad de Mexico] 
-2 [Calle 5] 39 5 [Del Mar] [Tlahuac] [CDMX] 
-3 [Av Tasque¤a] 5 6 [Tasque¤a] [Coyoacan] [CDMX] 
