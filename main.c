@@ -127,7 +127,7 @@ void menuAdmin()
     system("cls");
     printf("ADMINISTRACION\n");
     printf("\n1. Registrar un cliente");
-    printf("\n2. Registrar una cuenta (Crédito)");
+    printf("\n2. Registrar una cuenta (Credito)");
     printf("\n3. Ver clientes");
     printf("\n4. Ver cuentas");
     printf("\n5. Regresar");
@@ -163,9 +163,8 @@ void menuAdmin()
 }
 
 void iniciarSesion(){
-
-
-    printf("Inicie sesion.\n\n ");
+    system("cls");
+    printf("Inicie sesion.\n\n");
     printf("No. de cliente: ");
     scanf("%d", &numClienteSesion);
     printf("Contrasenia: ");
@@ -246,7 +245,7 @@ void registrarCliente()
     system("cls");
 
     struct Cliente miCliente;
-    FILE *fp;
+    FILE *fp; 
     FILE *fp2;
 
     fp = fopen("Clientes.txt", "r+t");
@@ -260,7 +259,7 @@ void registrarCliente()
         miCliente.numCliente1 = 1;
     }
     else
-    {
+    {   
         fclose(fp);
         fp = fopen("Clientes.txt", "a+t");
 
@@ -268,28 +267,29 @@ void registrarCliente()
         while(!feof(fp))
         {
             fscanf(fp, "%d %s %s %s %s\n", &miCliente.numCliente1, &miCliente.nombre, &miCliente.apePat, &miCliente.apeMat, &miCliente.contrasena);
+
         }
 
         fclose(fp);
         miCliente.numCliente1++;
-
+        
     }
 
     /*----------------------Se lee el archivo de Domicilio---------------------*/
     if(fp2 == NULL)
     {
         fp2 = fopen("Domicilio.txt", "w+t");
-
+            
     }
     else
-    {
+    {   
         fclose(fp2);
         fp2 = fopen("Domicilio.txt", "a+t");
 
         fclose(fp2);
     }
 
-    printf("DATOS PERSONALES: \n");
+        printf("DATOS PERSONALES: \n");
 
     printf("Nombre: ");
     scanf(" %[^\n]", miCliente.nombre);
@@ -348,10 +348,12 @@ void registrarCliente()
     fclose(fp2);
 
     printf("Cliente registrado exitosamente. ID: %d", miCliente.numCliente1);
+
 }
 
 void registrarCuenta()
 {
+
   FILE *fp;
   fp = fopen("Cuentas.txt", "r+t");
   bool primerRegistro = true;
@@ -446,7 +448,7 @@ void registrarDeposito ()
 
     FILE *fp = fopen( "Cuentas.txt" , "r+t" );
     if (fp == NULL) //Si no hay un archivo es porque aún no tiene una cuenta
-    {
+    {         
         fclose(fp);
         char registro;
         printf("No tienes una cuenta todavía. ¿Deseas registrar una? \n");
@@ -456,9 +458,9 @@ void registrarDeposito ()
     }
 
     printf("Cuentas en existencia\n\n");
-    while (!feof(fp))
+    while (!feof(fp)) 
     {
-        fscanf( fp, "%d %d %d\n", &miCuenta.numCuenta, &miCuenta.numCliente2, &miCuenta.saldoDeudor);
+        fscanf( fp, "%d %d %d\n", &miCuenta.numCuenta, &miCuenta.numCliente2, &miCuenta.saldoDeudor);       
         if(numClienteSesion == miCuenta.numCliente2)printf("Cuenta: %d\tAdeudo: %d\n\n", miCuenta.numCuenta, miCuenta.saldoDeudor);
     }
     fclose(fp);
@@ -473,9 +475,9 @@ void registrarDeposito ()
     printf("Monto del Deposito: ");
     scanf("%ld", &deposito);
 
-    while (!feof(fp))
+    while (!feof(fp)) 
     {
-        fscanf(fp, "%d %d %d\n", &miCuenta.numCuenta, &miCuenta.numCliente2, &miCuenta.saldoDeudor);
+        fscanf(fp, "%d %d %d\n", &miCuenta.numCuenta, &miCuenta.numCliente2, &miCuenta.saldoDeudor);       
         if(numClienteSesion == miCuenta.numCliente2 && cuentaDepositar == miCuenta.numCuenta)
             depositar = true; //la variable depositar nos permite saber si el cliente metió una cuenta que le corresponde
     }
@@ -487,25 +489,25 @@ void registrarDeposito ()
         fpTemporal = fopen("CuentasTemporal.txt", "a+t");
         rewind(fp);
 
-        while (!feof(fp))
+        while (!feof(fp)) 
         {
             fscanf(fp, "%d %d %d\n", &miCuenta.numCuenta, &miCuenta.numCliente2, &miCuenta.saldoDeudor);
 
             fprintf(fpTemporal, "%d ", miCuenta.numCuenta);
             fprintf(fpTemporal, "%d ", miCuenta.numCliente2);
 
-            if(numClienteSesion == miCuenta.numCliente2 && cuentaDepositar == miCuenta.numCuenta)
+            if(numClienteSesion == miCuenta.numCliente2 && cuentaDepositar == miCuenta.numCuenta)  
                 fprintf(fpTemporal, "%d", miCuenta.saldoDeudor-deposito);
-            else
+            else 
                 fprintf(fpTemporal, "%d", miCuenta.saldoDeudor);
-
+            
             fprintf(fpTemporal, "\n");
         }
 
         rewind(fp);
         rewind(fpTemporal);
 
-        while (!feof(fpTemporal))
+        while (!feof(fpTemporal)) 
         {
             fscanf(fpTemporal, "%d %d %d\n", &miCuenta.numCuenta, &miCuenta.numCliente2, &miCuenta.saldoDeudor);
 
@@ -517,20 +519,28 @@ void registrarDeposito ()
 
         fclose(fpTemporal);
         remove("CuentasTemporal.txt");
+        printf("Deposito hecho.");
+        getch();
     }
+    else
+    {
+        printf("Datos incorrectos.");
+        getch();
+    }
+    
 
-
+    
     fclose(fp);
     menuCliente();
 
 }
 void registrarPrestamo()
 {
-        system("cls");
+    system("cls");
 
     FILE *fp = fopen( "Cuentas.txt" , "r+t" );
     if (fp == NULL) //Si no hay un archivo es porque aún no tiene una cuenta
-    {
+    {         
         fclose(fp);
         char registro;
         printf("No tienes una cuenta todavía. ¿Deseas registrar una? \n");
@@ -540,17 +550,81 @@ void registrarPrestamo()
     }
 
     printf("Cuentas en existencia\n\n");
-    while (!feof(fp))
+    while (!feof(fp)) 
     {
-        fscanf( fp, "%d %d %d\n", &miCuenta.numCuenta, &miCuenta.numCliente2, &miCuenta.saldoDeudor);
-        printf("Cuenta: %d\tAdeudo: %d\n\n", miCuenta.numCuenta, miCuenta.saldoDeudor);
+        fscanf( fp, "%d %d %d\n", &miCuenta.numCuenta, &miCuenta.numCliente2, &miCuenta.saldoDeudor);       
+        if(numClienteSesion == miCuenta.numCliente2)printf("Cuenta: %d\tAdeudo: %d\n\n", miCuenta.numCuenta, miCuenta.saldoDeudor);
     }
-    printf("Seleccione la opcion que desea realizar\n\n");
-    printf("1. Realizar un prestamo\n");
-    printf("2. Regresar");
-    validarOpc(1,2);
+    fclose(fp);
+
+    fp = fopen( "Cuentas.txt" , "r+t" );
+    bool prestar = false;
+    int cuentaPrestamo;
+    printf("\n\nSeleccione la cuenta para realizar el prestamo: ");
+    scanf("%d", &cuentaPrestamo);
+
+    double prestamo;
+    printf("Monto del Prestamo: ");
+    scanf("%ld", &prestamo);
+
+    while (!feof(fp)) 
+    {
+        fscanf(fp, "%d %d %ld\n", &miCuenta.numCuenta, &miCuenta.numCliente2, &miCuenta.saldoDeudor);       
+        if(numClienteSesion == miCuenta.numCliente2 && cuentaPrestamo == miCuenta.numCuenta)
+            prestar = true; //la variable prestar nos permite saber si el cliente metió una cuenta que le corresponde
+    }
+
+    if(prestar)
+    {
+        //modificar saldo actual
+        FILE *fpTemporal;
+        fpTemporal = fopen("CuentasTemporal.txt", "a+t");
+        rewind(fp);
+
+        while (!feof(fp)) 
+        {
+            fscanf(fp, "%d %d %ld\n", &miCuenta.numCuenta, &miCuenta.numCliente2, &miCuenta.saldoDeudor);
+
+            fprintf(fpTemporal, "%d ", miCuenta.numCuenta);
+            fprintf(fpTemporal, "%d ", miCuenta.numCliente2);
+
+            if(numClienteSesion == miCuenta.numCliente2 && cuentaPrestamo == miCuenta.numCuenta)  
+                fprintf(fpTemporal, "%d", miCuenta.saldoDeudor+prestamo);
+            else 
+                fprintf(fpTemporal, "%d", miCuenta.saldoDeudor);
+            
+            fprintf(fpTemporal, "\n");
+        }
+
+        rewind(fp);
+        rewind(fpTemporal);
+
+        while (!feof(fpTemporal)) 
+        {
+            fscanf(fpTemporal, "%d %d %d\n", &miCuenta.numCuenta, &miCuenta.numCliente2, &miCuenta.saldoDeudor);
+
+            fprintf(fp, "%d ", miCuenta.numCuenta);
+            fprintf(fp, "%d ", miCuenta.numCliente2);
+            fprintf(fp, "%d ", miCuenta.saldoDeudor);
+            fprintf(fp, "\n");
+        }
+
+        fclose(fpTemporal);
+        remove("CuentasTemporal.txt");
+        printf("Prestamo hecho. Gracias por confiar en nosotros.");
+        getch();
+    }
+    else
+    {
+        printf("Datos incorrectos.");
+        getch();
+    }
+    
+
+    
     fclose(fp);
     menuCliente();
+
 }
 
 void verClientes(){
