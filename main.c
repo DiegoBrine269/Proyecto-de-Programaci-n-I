@@ -165,7 +165,7 @@ void menuAdmin()
 void iniciarSesion(){
 
 
-    printf("Inicie sesion.\n\n ");
+    printf("Inicie sesion.\n\n");
     printf("No. de cliente: ");
     scanf("%d", &numClienteSesion);
     printf("Contrasenia: ");
