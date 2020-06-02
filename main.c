@@ -32,6 +32,8 @@ struct Cliente
     char contrasena [15];
 } miCliente;
 
+bool logueado = false;
+
 struct Cuenta
 {
     int numCuenta;
@@ -126,7 +128,7 @@ void menuAdmin()
     system("cls");
     printf("ADMINISTRACION\n");
     printf("\n1. Registrar un cliente");
-    printf("\n2. Registrar una cuenta (Crédito)");
+    printf("\n2. Registrar una cuenta (Credito)");
     printf("\n3. Ver clientes");
     printf("\n4. Ver cuentas");
     printf("\n5. Regresar");
@@ -194,138 +196,180 @@ void menuCliente()
     printf("\n3. Ver saldo de cuentas");
     printf("\n4. Regresar");
 
-    validarOpc(1, 4);
+    FILE *fp;
 
-    switch(opcion)
+    fp = fopen("Clientes.txt", "r+t");
+
+    /*----------------------Se lee el archivo de Clientes---------------------*/
+    if(fp == NULL)
     {
-        case '1':
-            //registrarDeposito();
-            break;
-
-        case '2':
-            //registrarPrestamo();
-            break;
-
-        case '3':
-            verSaldoCuentas(numClienteSesion);
-            break;
-
-        case '4':
-            main();
-            break;
-
-        default:
-            printf("Error");
-            break;
+        printf("No hay clientes registrados.");
     }
+    else
+    {
+        fclose(fp);
+        fp = fopen("Clientes.txt", "a+t");
+
+        while(!feof(fp))
+        {
+            fscanf(fp, "%d %s %s %s %s\n", &miCliente.numCliente1, &miCliente.nombre, &miCliente.apePat, &miCliente.apeMat, &miCliente.contrasena);
+            if(numClienteSesion == miCliente.numCliente1 && strcmp(contrasenaSesion, miCliente.contrasena)==0)
+            {
+                logueado = true;
+                break;
+            }
+        }
+
+        fclose(fp);
+        miCliente.numCliente1++;
+
+    }
+
+    if(logueado)
+    {
+        system("cls");
+        printf("CLIENTE\n");
+        printf("\n1. Registrar un deposito");
+        printf("\n2. Registrar un prestamo");
+        printf("\n3. Ver saldo de cuentas");
+        printf("\n4. Regresar");
+
+        validarOpc(1, 4);
+
+        switch(opcion)
+        {
+            case '1':
+                registrarDeposito();
+                break;
+
+            case '2':
+                registrarPrestamo();
+                break;
+
+            case '3':
+                verSaldoCuentas(numClienteSesion);
+                break;
+
+            case '4':
+                main();
+                break;
+
+            default:
+                printf("Error");
+                break;
+        }
+    }
+    else printf("Datos incorrectos");
 }
 
 void registrarCliente()
 {
-  system("cls");
+    system("cls");
 
-  struct Cliente miCliente;
-  FILE *fp;
-  FILE *fp2;
+    struct Cliente miCliente;
+    FILE *fp;
+    FILE *fp2;
 
-  fp = fopen("Clientes.txt", "r+t");
-  fp2 = fopen("Domicilio.txt", "r+t");
+    fp = fopen("Clientes.txt", "r+t");
+    fp2 = fopen("Domicilio.txt", "r+t");
 
-  /*----------------------Se lee el archivo de Clientes---------------------*/
-  if(fp == NULL)
-  {
-      fp = fopen("Clientes.txt", "w+t");
-      fprintf(fp, "%d ", 1);
-  }
-  else
-  {
-      fclose(fp);
-      fp = fopen("Clientes.txt", "a+t");
-
-      while(!feof(fp))
-      {
-          fscanf(fp, "%d %s %s %s %s\n", &miCliente.numCliente1, &miCliente.nombre, &miCliente.apePat, &miCliente.apeMat, &miCliente.contrasena);
-
-      }
-
-      fclose(fp);
-      miCliente.numCliente1++;
-
-  }
-
-  /*----------------------Se lee el archivo de Domicilio---------------------*/
-  if(fp2 == NULL)
-  {
-      fp2 = fopen("Domicilio.txt", "w+t");
-
-  }
-  else
-  {
-      fclose(fp2);
-      fp2 = fopen("Domicilio.txt", "a+t");
-
-      fclose(fp2);
-  }
-
-      printf("DATOS PERSONALES: \n");
-
-  printf("Nombre: ");
-  scanf(" %[^\n]", miCliente.nombre);
-
-  printf("Apellido paterno: ");
-  scanf(" %[^\n]", miCliente.apePat);
-
-  printf("Apellido materno: ");
-  scanf(" %[^\n]", miCliente.apeMat);
-
-  printf("Edad: ");
-  scanf(" %[^\n]", &miCliente.edad);
-
-  printf("\nDOMICILIO: \n");
-
-  printf("Calle: ");
-  scanf(" %[^\n]", miCliente.domicilioCliente.calle);
-
-  printf("Numero Interior: ");
-  scanf(" %d", &miCliente.domicilioCliente.numeroInt);
-
-  printf("Numero Exterior: ");
-  scanf(" %d", &miCliente.domicilioCliente.numeroExt);
-
-  printf("Colonia: ");
-  scanf(" %[^\n]", miCliente.domicilioCliente.colonia);
-
-  printf("Alcaldia: ");
-  scanf(" %[^\n]", miCliente.domicilioCliente.alcaldia);
-
-  printf("Ciudad: ");
-  scanf(" %[^\n]", miCliente.domicilioCliente.ciudad);
-
-  printf("Contrasenia: ");
-  scanf(" %s", miCliente.contrasena);
+    /*----------------------Se lee el archivo de Clientes---------------------*/
+    if(fp == NULL)
+    {
+        fp = fopen("Clientes.txt", "w+t");
+        fprintf(fp, "%d ", 1);
+        miCliente.numCliente1 = 1;
+    }
+    else
+    {
+        fclose(fp);
+        fp = fopen("Clientes.txt", "a+t");
 
 
-  fp = fopen("Clientes.txt", "a+t");
-  fp2 = fopen("Domicilio.txt", "a+t");
-  fprintf(fp, "%d ", miCliente.numCliente1);
-  fprintf(fp, "%s ", miCliente.nombre);
-  fprintf(fp, "%s ", miCliente.apePat);
-  fprintf(fp, "%s ", miCliente.apeMat);
-  fprintf(fp2, "%d ", miCliente.numCliente1);
-  fprintf(fp2, "[%s] ", miCliente.domicilioCliente.calle);
-  fprintf(fp2, "%d ", miCliente.domicilioCliente.numeroInt);
-  fprintf(fp2, "%d ", miCliente.domicilioCliente.numeroExt);
-  fprintf(fp2, "[%s] ", miCliente.domicilioCliente.colonia);
-  fprintf(fp2, "[%s] ", miCliente.domicilioCliente.alcaldia);
-  fprintf(fp2, "[%s] ", miCliente.domicilioCliente.ciudad);
-  fprintf(fp, "%s ", miCliente.contrasena);
-  fputs("\n", fp);
-  fputs("\n", fp2);
+        while(!feof(fp))
+        {
+            fscanf(fp, "%d %s %s %s %s\n", &miCliente.numCliente1, &miCliente.nombre, &miCliente.apePat, &miCliente.apeMat, &miCliente.contrasena);
 
-  fclose(fp);
-  fclose(fp2);
+        }
 
-  printf("Cliente registrado exitosamente. ID: %d", miCliente.numCliente1);
+        fclose(fp);
+        miCliente.numCliente1++;
+
+    }
+
+    /*----------------------Se lee el archivo de Domicilio---------------------*/
+    if(fp2 == NULL)
+    {
+        fp2 = fopen("Domicilio.txt", "w+t");
+
+    }
+    else
+    {
+        fclose(fp2);
+        fp2 = fopen("Domicilio.txt", "a+t");
+
+        fclose(fp2);
+    }
+
+        printf("DATOS PERSONALES: \n");
+
+    printf("Nombre: ");
+    scanf(" %[^\n]", miCliente.nombre);
+
+    printf("Apellido paterno: ");
+    scanf(" %[^\n]", miCliente.apePat);
+
+    printf("Apellido materno: ");
+    scanf(" %[^\n]", miCliente.apeMat);
+
+    printf("Edad: ");
+    scanf(" %[^\n]", &miCliente.edad);
+
+    printf("\nDOMICILIO: \n");
+
+    printf("Calle: ");
+    scanf(" %[^\n]", miCliente.domicilioCliente.calle);
+
+    printf("Numero Interior: ");
+    scanf(" %d", &miCliente.domicilioCliente.numeroInt);
+
+    printf("Numero Exterior: ");
+    scanf(" %d", &miCliente.domicilioCliente.numeroExt);
+
+    printf("Colonia: ");
+    scanf(" %[^\n]", miCliente.domicilioCliente.colonia);
+
+    printf("Alcaldia: ");
+    scanf(" %[^\n]", miCliente.domicilioCliente.alcaldia);
+
+    printf("Ciudad: ");
+    scanf(" %[^\n]", miCliente.domicilioCliente.ciudad);
+
+    printf("Contrasenia: ");
+    scanf(" %s", miCliente.contrasena);
+
+
+    fp = fopen("Clientes.txt", "a+t");
+    fp2 = fopen("Domicilio.txt", "a+t");
+    fprintf(fp, "%d ", miCliente.numCliente1);
+    fprintf(fp, "%s ", miCliente.nombre);
+    fprintf(fp, "%s ", miCliente.apePat);
+    fprintf(fp, "%s ", miCliente.apeMat);
+    fprintf(fp2, "%d ", miCliente.numCliente1);
+    fprintf(fp2, "[%s] ", miCliente.domicilioCliente.calle);
+    fprintf(fp2, "%d ", miCliente.domicilioCliente.numeroInt);
+    fprintf(fp2, "%d ", miCliente.domicilioCliente.numeroExt);
+    fprintf(fp2, "[%s] ", miCliente.domicilioCliente.colonia);
+    fprintf(fp2, "[%s] ", miCliente.domicilioCliente.alcaldia);
+    fprintf(fp2, "[%s] ", miCliente.domicilioCliente.ciudad);
+    fprintf(fp, "%s ", miCliente.contrasena);
+    fputs("\n", fp);
+    fputs("\n", fp2);
+
+    fclose(fp);
+    fclose(fp2);
+
+    printf("Cliente registrado exitosamente. ID: %d", miCliente.numCliente1);
 
 }
 
@@ -422,8 +466,262 @@ bool existeCliente(int numCliente)
 
 void registrarDeposito ()
 {
-    FILE *fp;
-    //fp = fopen
+    system("cls");
+
+    FILE *fp = fopen( "Cuentas.txt" , "r+t" );
+    if (fp == NULL) //Si no hay un archivo es porque aún no tiene una cuenta
+    {
+        fclose(fp);
+        char registro;
+        printf("No tienes una cuenta todavía. ¿Deseas registrar una? \n");
+        scanf("%c", &registro);
+        if (registro == 's') registrarCuenta();
+        else menuCliente();
+    }
+
+    printf("Cuentas en existencia\n\n");
+    while (!feof(fp))
+    {
+        fscanf( fp, "%d %d %d\n", &miCuenta.numCuenta, &miCuenta.numCliente2, &miCuenta.saldoDeudor);
+        if(numClienteSesion == miCuenta.numCliente2)printf("Cuenta: %d\tAdeudo: %d\n\n", miCuenta.numCuenta, miCuenta.saldoDeudor);
+    }
+    fclose(fp);
+
+    fp = fopen( "Cuentas.txt" , "r+t" );
+    bool depositar = false;
+    int cuentaDepositar;
+    printf("\n\nSeleccione la cuenta a depositar: ");
+    scanf("%d", &cuentaDepositar);
+
+    double deposito;
+    printf("Monto del Deposito: ");
+    scanf("%ld", &deposito);
+
+    while (!feof(fp))
+    {
+        fscanf(fp, "%d %d %d\n", &miCuenta.numCuenta, &miCuenta.numCliente2, &miCuenta.saldoDeudor);
+        if(numClienteSesion == miCuenta.numCliente2 && cuentaDepositar == miCuenta.numCuenta)
+            depositar = true; //la variable depositar nos permite saber si el cliente metió una cuenta que le corresponde
+    }
+
+    if(depositar)
+    {
+        //modificar saldo actual
+        FILE *fpTemporal;
+        fpTemporal = fopen("CuentasTemporal.txt", "a+t");
+        rewind(fp);
+
+        while (!feof(fp))
+        {
+            fscanf(fp, "%d %d %d\n", &miCuenta.numCuenta, &miCuenta.numCliente2, &miCuenta.saldoDeudor);
+
+            fprintf(fpTemporal, "%d ", miCuenta.numCuenta);
+            fprintf(fpTemporal, "%d ", miCuenta.numCliente2);
+
+            if(numClienteSesion == miCuenta.numCliente2 && cuentaDepositar == miCuenta.numCuenta)
+                fprintf(fpTemporal, "%d", miCuenta.saldoDeudor-deposito);
+            else
+                fprintf(fpTemporal, "%d", miCuenta.saldoDeudor);
+
+            fprintf(fpTemporal, "\n");
+        }
+
+        rewind(fp);
+        rewind(fpTemporal);
+
+        while (!feof(fpTemporal))
+        {
+            fscanf(fpTemporal, "%d %d %d\n", &miCuenta.numCuenta, &miCuenta.numCliente2, &miCuenta.saldoDeudor);
+
+            fprintf(fp, "%d ", miCuenta.numCuenta);
+            fprintf(fp, "%d ", miCuenta.numCliente2);
+            fprintf(fp, "%d ", miCuenta.saldoDeudor);
+            fprintf(fp, "\n");
+        }
+
+        fclose(fpTemporal);
+        remove("CuentasTemporal.txt");
+        printf("Deposito hecho.");
+        getch();
+    }
+    else
+    {
+        printf("Datos incorrectos.");
+        getch();
+    }
+
+
+
+    fclose(fp);
+    menuCliente();
+
+}
+void registrarPrestamo()
+{
+    system("cls");
+
+    FILE *fp = fopen( "Cuentas.txt" , "r+t" );
+    if (fp == NULL) //Si no hay un archivo es porque aún no tiene una cuenta
+    {
+        fclose(fp);
+        char registro;
+        printf("No tienes una cuenta todavía. ¿Deseas registrar una? \n");
+        scanf("%c", &registro);
+        if (registro == 's') registrarCuenta();
+        else menuCliente();
+    }
+
+    printf("Cuentas en existencia\n\n");
+    while (!feof(fp))
+    {
+        fscanf( fp, "%d %d %d\n", &miCuenta.numCuenta, &miCuenta.numCliente2, &miCuenta.saldoDeudor);
+        if(numClienteSesion == miCuenta.numCliente2)printf("Cuenta: %d\tAdeudo: %d\n\n", miCuenta.numCuenta, miCuenta.saldoDeudor);
+    }
+    fclose(fp);
+
+    fp = fopen( "Cuentas.txt" , "r+t" );
+    bool prestar = false;
+    int cuentaPrestamo;
+    printf("\n\nSeleccione la cuenta para realizar el prestamo: ");
+    scanf("%d", &cuentaPrestamo);
+
+    double prestamo;
+    printf("Monto del Prestamo: ");
+    scanf("%ld", &prestamo);
+
+    while (!feof(fp))
+    {
+        fscanf(fp, "%d %d %ld\n", &miCuenta.numCuenta, &miCuenta.numCliente2, &miCuenta.saldoDeudor);
+        if(numClienteSesion == miCuenta.numCliente2 && cuentaPrestamo == miCuenta.numCuenta)
+            prestar = true; //la variable prestar nos permite saber si el cliente metió una cuenta que le corresponde
+    }
+
+    if(prestar)
+    {
+        //modificar saldo actual
+        FILE *fpTemporal;
+        fpTemporal = fopen("CuentasTemporal.txt", "a+t");
+        rewind(fp);
+
+        while (!feof(fp))
+        {
+            fscanf(fp, "%d %d %ld\n", &miCuenta.numCuenta, &miCuenta.numCliente2, &miCuenta.saldoDeudor);
+
+            fprintf(fpTemporal, "%d ", miCuenta.numCuenta);
+            fprintf(fpTemporal, "%d ", miCuenta.numCliente2);
+
+            if(numClienteSesion == miCuenta.numCliente2 && cuentaPrestamo == miCuenta.numCuenta)
+                fprintf(fpTemporal, "%d", miCuenta.saldoDeudor+prestamo);
+            else
+                fprintf(fpTemporal, "%d", miCuenta.saldoDeudor);
+
+            fprintf(fpTemporal, "\n");
+        }
+
+        rewind(fp);
+        rewind(fpTemporal);
+
+        while (!feof(fpTemporal))
+        {
+            fscanf(fpTemporal, "%d %d %d\n", &miCuenta.numCuenta, &miCuenta.numCliente2, &miCuenta.saldoDeudor);
+
+            fprintf(fp, "%d ", miCuenta.numCuenta);
+            fprintf(fp, "%d ", miCuenta.numCliente2);
+            fprintf(fp, "%d ", miCuenta.saldoDeudor);
+            fprintf(fp, "\n");
+        }
+
+        fclose(fpTemporal);
+        remove("CuentasTemporal.txt");
+        printf("Prestamo hecho. Gracias por confiar en nosotros.");
+        getch();
+    }
+    else
+    {
+        printf("Datos incorrectos.");
+        getch();
+    }
+
+
+
+    fclose(fp);
+    menuCliente();
+
+}
+
+void verClientes(){
+    system("cls");
+    FILE *fp=fopen("Clientes.txt","r+t");
+    char a;
+    if (fp==NULL)
+    {
+        printf("No hay clientes registrados");
+        fclose(fp);
+        menuAdmin();
+    }
+    printf("ID:\tNombre:\t\t\t\tContrasenia:\n");
+
+    while (!feof(fp))
+    {
+        fscanf( fp, "%d %s %s %s %s\n", &miCliente.numCliente1, miCliente.nombre, miCliente.apePat, miCliente.apeMat, miCliente.contrasena);
+        printf("\n%d\t%s %s %s\t\t%s\n",miCliente.numCliente1,miCliente.nombre,miCliente.apePat,miCliente.apeMat,miCliente.contrasena);
+    }
+    printf("\n1. Regresar");
+    validarOpc(1,1);
+    fclose(fp);
+    menuAdmin();
+}
+
+void verCuentas()
+{
+  system("cls");
+
+  FILE *fp = fopen( "Cuentas.txt" , "r+t" );
+  if (fp == NULL) {         //Si no hay un archivo es porque aún no se han registrado Cuentas
+    fclose(fp);
+    char registro;
+    printf("No se ha registrado una cuenta todavía. ¿Deseas registrar una? (s/n)\n");
+    scanf("%c", &registro);
+    if (registro == 's') registrarCuenta();
+    else menuAdmin();
+  }
+
+  while (!feof(fp)) {         //cada dato que esté en el archivo se muestra con el ciclo
+    fscanf( fp, "%d %d %d\n", &miCuenta.numCuenta, &miCuenta.numCliente2, &miCuenta.saldoDeudor);
+    printf("Cliente %d:\n\n\tNo. Cuenta: %d\tDeuda: %d\n\n", miCuenta.numCliente2, miCuenta.numCuenta, miCuenta.saldoDeudor);
+  }
+
+  printf("1. Regresar");
+  validarOpc(1,1);
+  fclose(fp);
+  menuAdmin();
+}
+
+void verSaldoCuentas(int cliente) {
+  system("cls");
+
+  FILE *fp = fopen( "Cuentas.txt" , "r+t" );
+  if (fp == NULL) {         //Si no hay un archivo es porque aún no tiene una cuenta
+    fclose(fp);
+    char registro;
+    printf("No tienes una cuenta todavía. ¿Deseas registrar una con un asesor? (s/n)\n");
+    scanf("%c", &registro);
+    if (registro == 's') registrarCuenta();
+    else menuCliente();
+  }
+
+  printf("Usted tiene los siguentes numeros de cuenta:\n\n");
+  while (!feof(fp)) {
+    fscanf( fp, "%d %d %d\n", &miCuenta.numCuenta, &miCuenta.numCliente2, &miCuenta.saldoDeudor);
+    if (cliente == miCuenta.numCliente2) {        //
+      printf("No. Cuenta: %d\tDeuda: %d\n\n", miCuenta.numCuenta, miCuenta.saldoDeudor);
+    }
+  }
+
+  printf("1. Regresar");
+  validarOpc(1,1);
+  fclose(fp);
+  menuCliente();
 }
 
 void verClientes(){
