@@ -163,9 +163,8 @@ void menuAdmin()
 }
 
 void iniciarSesion(){
-    
-
-    printf("Inicie sesion.\n\n ");
+    system("cls");
+    printf("Inicie sesion.\n\n");
     printf("No. de cliente: ");
     scanf("%d", &numClienteSesion);
     printf("Contrasenia: ");
@@ -520,7 +519,15 @@ void registrarDeposito ()
 
         fclose(fpTemporal);
         remove("CuentasTemporal.txt");
+        printf("Deposito hecho.");
+        getch();
     }
+    else
+    {
+        printf("Datos incorrectos.");
+        getch();
+    }
+    
 
     
     fclose(fp);
@@ -562,7 +569,7 @@ void registrarPrestamo()
 
     while (!feof(fp)) 
     {
-        fscanf(fp, "%d %d %d\n", &miCuenta.numCuenta, &miCuenta.numCliente2, &miCuenta.saldoDeudor);       
+        fscanf(fp, "%d %d %ld\n", &miCuenta.numCuenta, &miCuenta.numCliente2, &miCuenta.saldoDeudor);       
         if(numClienteSesion == miCuenta.numCliente2 && cuentaPrestamo == miCuenta.numCuenta)
             prestar = true; //la variable prestar nos permite saber si el cliente metió una cuenta que le corresponde
     }
@@ -576,7 +583,7 @@ void registrarPrestamo()
 
         while (!feof(fp)) 
         {
-            fscanf(fp, "%d %d %d\n", &miCuenta.numCuenta, &miCuenta.numCliente2, &miCuenta.saldoDeudor);
+            fscanf(fp, "%d %d %ld\n", &miCuenta.numCuenta, &miCuenta.numCliente2, &miCuenta.saldoDeudor);
 
             fprintf(fpTemporal, "%d ", miCuenta.numCuenta);
             fprintf(fpTemporal, "%d ", miCuenta.numCliente2);
@@ -604,7 +611,15 @@ void registrarPrestamo()
 
         fclose(fpTemporal);
         remove("CuentasTemporal.txt");
+        printf("Prestamo hecho. Gracias por confiar en nosotros.");
+        getch();
     }
+    else
+    {
+        printf("Datos incorrectos.");
+        getch();
+    }
+    
 
     
     fclose(fp);
