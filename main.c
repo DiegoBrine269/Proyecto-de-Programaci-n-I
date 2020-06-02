@@ -2,10 +2,15 @@
 #include <stdlib.h>
 #include <conio.h>
 #include <ctype.h>
+#include <string.h>
 
 /*FUNCIONES DE PREPROCESADOR*/
 
 /*variables globales*/
+int numClienteSesion;
+char contrasenaSesion [15];
+char registro;
+
 struct Domicilio
 {
     char calle [15];
@@ -50,6 +55,7 @@ void verCuentas();
 
 
 /*funciones de cliente*/
+void iniciarSesion();
 void registrarDeposito();
 void registrarPrestamo();
 void verSaldoCuentas(int cliente);
@@ -75,20 +81,21 @@ int main()
     switch(opcion)
     {
         case '1':
-            menuAdmin();
-            break;
+          menuAdmin();
+          break;
 
         case '2':
-            menuCliente();
-            break;
+          iniciarSesion();
+          menuCliente();
+          break;
 
         case '3':
-            salir();
-            break;
+          salir();
+          break;
 
         default:
-            printf("Error");
-            break;
+          printf("Error");
+          break;
     }
 
     getch();
@@ -154,6 +161,30 @@ void menuAdmin()
     }
 }
 
+void iniciarSesion(){
+    system("cls");
+    FILE *fp=fopen("Clientes.txt", "r+");
+    if (fp == NULL) {
+      fclose(fp);
+      printf("No hay clientes registrados. ¿Registrar uno con un asesor? (s/n).\n");
+      scanf("%s", &registro);
+      if (registro == 's') registrarCliente();
+      else main();
+    }
+    printf("Inicie sesion.\n\nNo. de cliente: ");
+    scanf("%d", &numClienteSesion);
+    while (!feof(fp)) {
+      fscanf(fp, "%d %s %s %s %s\n", &miCliente.numCliente1, &miCliente.nombre, &miCliente.apePat, &miCliente.apeMat, &miCliente.contrasena);
+      if (numClienteSesion==miCliente.numCliente1) {
+        break;
+      }
+    }
+    do {
+      printf("Contrasenia: ");
+      scanf("%s", &contrasenaSesion);
+    } while(strcmp(contrasenaSesion,miCliente.contrasena));
+}
+
 void menuCliente()
 {
     system("cls");
@@ -176,7 +207,7 @@ void menuCliente()
             break;
 
         case '3':
-            verSaldoCuentas(1);
+            verSaldoCuentas(numClienteSesion);
             break;
 
         case '4':
@@ -396,38 +427,37 @@ void registrarDeposito ()
 }
 
 void verClientes(){
-    system("cls");
-    FILE *fp=fopen("Clientes.txt","r+t");
-    char a;
-    if (fp==NULL)
-    {
-        printf("No hay clientes registrados");
-        fclose(fp);
-        menuAdmin();
-    }
-    printf("ID:\tNombre:\t\t\t\tContrasenia:\n");
-
-    while (!feof(fp))
-    {
-        fscanf( fp, "%d %s %s %s %s\n", &miCliente.numCliente1, miCliente.nombre, miCliente.apePat, miCliente.apeMat, miCliente.contrasena);
-        printf("\n%d\t%s %s %s\t\t%s\n",miCliente.numCliente1,miCliente.nombre,miCliente.apePat,miCliente.apeMat,miCliente.contrasena);
-    }
-    printf("\n1. Regresar");
-    validarOpc(1,1);
+  system("cls");
+  FILE *fp=fopen("Clientes.txt","r+");
+  if (fp==NULL)
+  {
     fclose(fp);
-    menuAdmin();
+    printf("No hay clientes registrados. ¿Registrar uno? (s/n)\n");
+    scanf("%s", &registro);
+    if (registro == 's') registrarCliente();
+    else menuAdmin();
+  }
+  printf("ID:\tNombre:\t\t\t\tContrasenia:\n");
+
+  while (!feof(fp))
+  {
+    fscanf( fp, "%d %s %s %s %s\n", &miCliente.numCliente1, &miCliente.nombre, &miCliente.apePat, &miCliente.apeMat, &miCliente.contrasena);
+    printf("\n%d\t%s %s %s\t\t%s\n",miCliente.numCliente1,miCliente.nombre,miCliente.apePat,miCliente.apeMat,miCliente.contrasena);
+  }
+  system("pause");
+  fclose(fp);
+  menuAdmin();
 }
 
 void verCuentas()
 {
   system("cls");
 
-  FILE *fp = fopen( "Cuentas.txt" , "r+t" );
+  FILE *fp = fopen( "Cuentas.txt" , "r+" );
   if (fp == NULL) {         //Si no hay un archivo es porque aún no se han registrado Cuentas
     fclose(fp);
-    char registro;
-    printf("No se ha registrado una cuenta todavía. ¿Deseas registrar una? (s/n)\n");
-    scanf("%c", &registro);
+    printf("No hay cuentas registradas. ¿Registrar una? (s/n)\n");
+    scanf("%s", &registro);
     if (registro == 's') registrarCuenta();
     else menuAdmin();
   }
@@ -437,8 +467,7 @@ void verCuentas()
     printf("Cliente %d:\n\n\tNo. Cuenta: %d\tDeuda: %d\n\n", miCuenta.numCliente2, miCuenta.numCuenta, miCuenta.saldoDeudor);
   }
 
-  printf("1. Regresar");
-  validarOpc(1,1);
+  system("pause");
   fclose(fp);
   menuAdmin();
 }
@@ -446,12 +475,11 @@ void verCuentas()
 void verSaldoCuentas(int cliente) {
   system("cls");
 
-  FILE *fp = fopen( "Cuentas.txt" , "r+t" );
+  FILE *fp = fopen( "Cuentas.txt" , "r+" );
   if (fp == NULL) {         //Si no hay un archivo es porque aún no tiene una cuenta
     fclose(fp);
-    char registro;
-    printf("No tienes una cuenta todavía. ¿Deseas registrar una con un asesor? (s/n)\n");
-    scanf("%c", &registro);
+    printf("No tienes una cuenta. ¿Registrar una con un asesor? (s/n)\n");
+    scanf("%s", &registro);
     if (registro == 's') registrarCuenta();
     else menuCliente();
   }
@@ -459,13 +487,12 @@ void verSaldoCuentas(int cliente) {
   printf("Usted tiene los siguentes numeros de cuenta:\n\n");
   while (!feof(fp)) {
     fscanf( fp, "%d %d %d\n", &miCuenta.numCuenta, &miCuenta.numCliente2, &miCuenta.saldoDeudor);
-    if (cliente == miCuenta.numCliente2) {        //
+    if (cliente == miCuenta.numCliente2) {
       printf("No. Cuenta: %d\tDeuda: %d\n\n", miCuenta.numCuenta, miCuenta.saldoDeudor);
     }
   }
 
-  printf("1. Regresar");
-  validarOpc(1,1);
+  system("pause");
   fclose(fp);
   menuCliente();
 }
