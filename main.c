@@ -494,8 +494,13 @@ void registrarDeposito ()
     scanf("%d", &cuentaDepositar);
 
     double deposito;
+    validacion:
     printf("Monto del Deposito: ");
     scanf("%ld", &deposito);
+    if (deposito<=0) {
+      printf("Ingrese una cantidad positiva. Inténtelo nuevamente\n");
+      goto validacion;
+    }
 
     while (!feof(fp))
     {
