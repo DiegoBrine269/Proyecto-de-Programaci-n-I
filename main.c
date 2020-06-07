@@ -201,47 +201,42 @@ void iniciarSesion(){
         fclose(fp);
         main();
       }
-      logueado = true;
     }
 }
 
 void menuCliente()
 {
-    if(logueado)
+    system("cls");
+    printf("CLIENTE\n");
+    printf("\n1. Registrar un deposito");
+    printf("\n2. Registrar un prestamo");
+    printf("\n3. Ver saldo de cuentas");
+    printf("\n4. Regresar");
+
+    validarOpc(1, 4);
+
+    switch(opcion)
     {
-        system("cls");
-        printf("CLIENTE\n");
-        printf("\n1. Registrar un deposito");
-        printf("\n2. Registrar un prestamo");
-        printf("\n3. Ver saldo de cuentas");
-        printf("\n4. Regresar");
+        case '1':
+            registrarDeposito();
+            break;
 
-        validarOpc(1, 4);
+        case '2':
+            registrarPrestamo();
+            break;
 
-        switch(opcion)
-        {
-            case '1':
-                registrarDeposito();
-                break;
+        case '3':
+            verSaldoCuentas(numClienteSesion);
+            break;
 
-            case '2':
-                registrarPrestamo();
-                break;
+        case '4':
+            main();
+            break;
 
-            case '3':
-                verSaldoCuentas(numClienteSesion);
-                break;
-
-            case '4':
-                main();
-                break;
-
-            default:
-                printf("Error");
-                break;
-        }
+        default:
+            printf("Error");
+            break;
     }
-    else printf("Datos incorrectos");
 }
 
 void registrarCliente()
