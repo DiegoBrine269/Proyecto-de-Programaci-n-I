@@ -39,7 +39,7 @@ struct Cuenta
 {
     int numCuenta;
     int numCliente2;
-    double saldoDeudor;
+    int saldoDeudor;
 } miCuenta;
 
 char opcion;
@@ -489,7 +489,12 @@ void registrarDeposito ()
             depositar = true; //la variable depositar nos permite saber si el cliente metió una cuenta que le corresponde
     }
 
-    if(depositar)
+    if (!depositar)
+    {
+        printf("Datos incorrectos.");
+        getch();
+    }
+    else
     {
         //modificar saldo actual
         FILE *fpTemporal;
@@ -503,8 +508,9 @@ void registrarDeposito ()
             fprintf(fpTemporal, "%d ", miCuenta.numCuenta);
             fprintf(fpTemporal, "%d ", miCuenta.numCliente2);
 
-            if(numClienteSesion == miCuenta.numCliente2 && cuentaDepositar == miCuenta.numCuenta)
-                fprintf(fpTemporal, "%d", miCuenta.saldoDeudor-deposito);
+            if(numClienteSesion == miCuenta.numCliente2 && cuentaDepositar == miCuenta.numCuenta){
+              fprintf(fpTemporal, "%d", miCuenta.saldoDeudor-deposito);
+            }
             else
                 fprintf(fpTemporal, "%d", miCuenta.saldoDeudor);
 
@@ -529,13 +535,6 @@ void registrarDeposito ()
         printf("Deposito hecho.");
         getch();
     }
-    else
-    {
-        printf("Datos incorrectos.");
-        getch();
-    }
-
-
 
     fclose(fp);
     menuCliente();
@@ -571,11 +570,11 @@ void registrarPrestamo()
 
     double prestamo;
     printf("Monto del Prestamo: ");
-    scanf("%ld", &prestamo);
+    scanf("%d", &prestamo);
 
     while (!feof(fp))
     {
-        fscanf(fp, "%d %d %ld\n", &miCuenta.numCuenta, &miCuenta.numCliente2, &miCuenta.saldoDeudor);
+        fscanf(fp, "%d %d %d\n", &miCuenta.numCuenta, &miCuenta.numCliente2, &miCuenta.saldoDeudor);
         if(numClienteSesion == miCuenta.numCliente2 && cuentaPrestamo == miCuenta.numCuenta)
             prestar = true; //la variable prestar nos permite saber si el cliente metió una cuenta que le corresponde
     }
@@ -589,7 +588,7 @@ void registrarPrestamo()
 
         while (!feof(fp))
         {
-            fscanf(fp, "%d %d %ld\n", &miCuenta.numCuenta, &miCuenta.numCliente2, &miCuenta.saldoDeudor);
+            fscanf(fp, "%d %d %d\n", &miCuenta.numCuenta, &miCuenta.numCliente2, &miCuenta.saldoDeudor);
 
             fprintf(fpTemporal, "%d ", miCuenta.numCuenta);
             fprintf(fpTemporal, "%d ", miCuenta.numCliente2);
