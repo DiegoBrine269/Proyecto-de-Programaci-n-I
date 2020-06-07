@@ -8,6 +8,7 @@
 
 /*variables globales*/
 int numClienteSesion;
+int validCliente;
 char contrasenaSesion [15];
 char registro;
 
@@ -164,6 +165,7 @@ void menuAdmin()
 }
 
 void iniciarSesion(){
+    validCliente = 0;
     system("cls");
     FILE *fp=fopen("Clientes.txt", "r+");
     if (fp == NULL) {
@@ -177,54 +179,34 @@ void iniciarSesion(){
     scanf("%d", &numClienteSesion);
     while (!feof(fp)) {
       fscanf(fp, "%d %s %s %s %s\n", &miCliente.numCliente1, &miCliente.nombre, &miCliente.apePat, &miCliente.apeMat, &miCliente.contrasena);
+      validCliente++;;
       if (numClienteSesion==miCliente.numCliente1) {
+        printf("%s\n", miCliente.contrasena);
         break;
       }
     }
-    do {
+    if (numClienteSesion>validCliente || numClienteSesion<=0) {
+      printf("No existe un cliente con tal número.\nIntentelo nuevamente.");
+      getch();
+      fclose(fp);
+      iniciarSesion();
+    }
+    else {
       printf("Contrasenia: ");
       scanf("%s", &contrasenaSesion);
-    } while(strcmp(contrasenaSesion,miCliente.contrasena));
+      if (strcmp(contrasenaSesion,miCliente.contrasena)) {
+        system("cls");
+        printf("CONTRASENIA INCORRECTA.\nIntentelo nuevamente.");
+        getch();
+        fclose(fp);
+        main();
+      }
+      logueado = true;
+    }
 }
 
 void menuCliente()
 {
-    system("cls");
-    printf("CLIENTE\n");
-    printf("\n1. Registrar un deposito");
-    printf("\n2. Registrar un prestamo");
-    printf("\n3. Ver saldo de cuentas");
-    printf("\n4. Regresar");
-
-    FILE *fp;
-
-    fp = fopen("Clientes.txt", "r+t");
-
-    /*----------------------Se lee el archivo de Clientes---------------------*/
-    if(fp == NULL)
-    {
-        printf("No hay clientes registrados.");
-    }
-    else
-    {
-        fclose(fp);
-        fp = fopen("Clientes.txt", "a+t");
-
-        while(!feof(fp))
-        {
-            fscanf(fp, "%d %s %s %s %s\n", &miCliente.numCliente1, &miCliente.nombre, &miCliente.apePat, &miCliente.apeMat, &miCliente.contrasena);
-            if(numClienteSesion == miCliente.numCliente1 && strcmp(contrasenaSesion, miCliente.contrasena)==0)
-            {
-                logueado = true;
-                break;
-            }
-        }
-
-        fclose(fp);
-        miCliente.numCliente1++;
-
-    }
-
     if(logueado)
     {
         system("cls");
